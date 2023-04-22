@@ -16,8 +16,6 @@ def upload():
     file = request.files['file']
     global df
     df = pd.read_csv(file)
-    # perform analysis using pandas code here
-    # save the data to a file or database
     flash('Data uploaded successfully!')
     return redirect(url_for('index'))
 
