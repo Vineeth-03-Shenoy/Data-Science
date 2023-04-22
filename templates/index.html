@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Data</title>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <script>
+          alert("{{ messages[0] }}");
+        </script>
+      {% endif %}
+    {% endwith %}
+  </head>
+  <body>
+    <h1>Upload Data</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+    <br>
+    <a href="/view"><button>View</button></a>
+    <a href="/describe"><button>Describe</button></a>
+    <a href="/clean"><button>Basic Clean</button></a>
+    <a href="/analyze"><button>Advance Clean</button></a>
+    <a href="/visualize"><button>Visualize</button></a>
+  </body>
+</html>
