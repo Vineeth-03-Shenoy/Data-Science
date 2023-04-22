@@ -30,13 +30,17 @@ def describeDF():
     global df
     return render_template('describe.html', data=df.describe(include="all").to_html(index=True))
 
-
 @app.route('/clean')
 def clean():
     global df
     data = cleanData.getCleaned(df)
     data = data.to_html(index=False)
     return render_template('clean.html', data=data)
+
+@app.route('/advance_Clean')
+def advanceClean():
+    global df
+    
 
 @app.route('/analyze')
 def analyze():
