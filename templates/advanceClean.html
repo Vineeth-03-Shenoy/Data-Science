@@ -5,6 +5,20 @@
   </head>
   <body>
     <h1>Advance Cleaning</h1>
+    <h3>The top 5 rows of the dataset</h3>
     {{ data|safe }}
+
+    {% if missData %}
+    <h3>The following Columns contain Missing Values</h3>
+    {{ missData|safe }}
+    {% endif %}
+    
+    <br>
+    <a href="{{ url_for('replace_missing') }}" ><button>Remove Missing Values</button></a>
+
+    {% block content %} 
+
+    {% endblock %}
+
   </body>
 </html>

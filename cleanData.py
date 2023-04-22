@@ -3,7 +3,7 @@ import numpy as np
 
 df = pd.DataFrame()
 
-def getCleaned(DF):
+def getCleaned(DF,Target=False):
     df=DF
 
     #replace every cell containing '?' with NaN
@@ -12,9 +12,10 @@ def getCleaned(DF):
     #Obtain the headings of the dataframe
     columns = list(df.head(0))                                   
 
-    #assuming that last column is the target, remove the rows containing null
-    df.dropna(subset=[columns[-1]], axis=0, inplace=True)       
-    df.reset_index(drop=True, inplace=True)      
+    #if last column is the target, remove the rows containing null
+    if(Target==True):
+        df.dropna(subset=[columns[-1]], axis=0, inplace=True)       
+        df.reset_index(drop=True, inplace=True)      
 
     #Delete Rows that contain duplicates
     df.drop_duplicates(inplace=True)
