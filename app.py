@@ -57,18 +57,11 @@ def advance_cleaning():
             clean_message = "Missing values replaced successfully!"
 
         elif request.form['action'] == 'change_datatype':
-            columns = request.form.getlist('columns')
-            for col in columns:
-                data_type = request.form.get(col)
-                df[col] = df[col].astype(data_type)
+            column = request.form.getlist('column')
+            datatype = request.form['datatype']
+            for col in column:
+                df[col] = df[col].astype(datatype)
             clean_message = "Data type changed successfully!"
-
-        elif request.form['action'] == 'standardize_data':
-            columns = request.form.getlist('columns')
-            df[columns] = (df[columns] - df[columns].mean()) / df[columns].std()
-            data = df.head()
-            desc = df.describe().to_html(classes='table table-striped')
-            clean_message = "Data standardized successfully!"
 
         elif request.form['action'] == 'normalize_data':
             columns = request.form.getlist('columns')

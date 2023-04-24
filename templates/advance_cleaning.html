@@ -28,24 +28,26 @@
       <option value="deleteRow">Delete Row</option>
     </select>
     <br><br>
-    <input type="hidden" name="action" value="replace_missing">
-    <input type="submit" value="CLEAN">
+    <input type="submit" name="action" value="replace_missing">
     <br><br>
 
     <h2>Change Data Type:</h2>
     <h2>Data Type of Attributes</h2>
       {{ dataType.to_html()|safe }}
-    {% for col in columns %}
-    <label>{{col}}:</label>
-    <select name="{{col}}">
-      <option value="int">Integer</option>
-      <option value="float">Float</option>
-      <option value="object">String</option>
-    </select>
-    <br><br>
-    {% endfor %}
-    <input type="hidden" name="action" value="change_datatype">
-    <input type="submit" value="CLEAN">
+      <label>Select Column:</label>
+      <select name="column">
+        {% for col in columns %}
+        <option value="{{col}}">{{col}}</option>
+        {% endfor %}
+      </select>
+      <br><br>
+      <label>Select Method:</label>
+      <select name="datatype">
+        <option value="int">Integer</option>
+        <option value="float">Float</option>
+        <option value="object">Object</option>
+      </select><br><br>
+    <input type="submit" name="action" value="change_datatype">
     <br><br>
 
     <h2>Standardize Data:</h2>
