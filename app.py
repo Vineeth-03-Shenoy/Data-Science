@@ -1,84 +1,96 @@
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, render_template, request
 import pandas as pd
 import numpy as np
-import cleanData
 
 app = Flask(__name__)
-app.secret_key = 'my_secret_key'
-
-df = pd.DataFrame()
-miss_data = pd.Series()
+app.secret_key = 'mysecretkey'
 
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    file = request.files['file']
-    global df
-    df = pd.read_csv(file)
-    flash('Data uploaded successfully!')
-    return redirect(url_for('index'))
+    if request.method == 'POST':
+        file = request.files['file']
+        global df
+        df = pd.read_csv(file)
 
-@app.route('/view')
-def view():
-    global df
-    data = df.to_html(index=False)
-    return render_template('view.html', data=data)
+        #Replace '?' and '' with NaN 
+        df.replace('?', np.NaN, inplace=True)
+        df.replace('', np.NaN, inplace=True)
 
-@app.route('/describe')
-def describeDF():
-    global df
-    return render_template('describe.html', data=df.describe(include="all").to_html(index=True))
+        #Delete Rows that contain duplicates
+        df.drop_duplicates(inplace=True)
 
-@app.route('/clean')
-def clean():
-    global df
-    df = cleanData.getCleaned(df)
-    df = df.to_html(index=False)
-    return render_template('clean.html', data=df)
+        #Delete Columns that have single values 
+        for key, value in df.items():
+            if len(df[key].unique())==1:
+                del df[key]
 
-@app.route('/advance_Clean')
-def advanceClean():
-    global df, miss_data
-    df = cleanData.getCleaned(df, Target=True)
+        miss_data = df.isnull().sum()[df.isnull().sum() > 0]
+        miss_data=miss_data.to_frame()
+        miss_data.columns=['No of Missing Values']
+        cols = list(miss_data.index)
+        dataType=df.dtypes
+        dataType=dataType.to_frame() 
+        return render_template('advance_cleaning.html', data=df, dataType=dataType.transpose() , cols=cols, columns=list(df.columns))
+
+@app.route('/advance_cleaning', methods=['GET', 'POST'])
+def advance_cleaning():
+    global df
+    clean_message = None
+    if request.method == 'POST':
+        if request.form['action'] == 'replace_missing':
+            columns = request.form.getlist('replace_column')
+            method = request.form['replace_method']
+            for col in columns:
+                if method == 'mean':
+                    avg = df[col].astype('float').mean(axis=0)
+                    df[col].replace(np.NaN, avg, inplace=True)
+                elif method == 'freq':
+                    freq = df[col].value_counts().idxmax()
+                    df[col].replace(np.NaN, freq, inplace=True)
+                elif method == 'deleteRow':
+                    df.dropna(subset=[columns[0]], axis=0, inplace=True)
+                    df.reset_index(drop=True, inplace=True)
+            clean_message = "Missing values replaced successfully!"
+
+        elif request.form['action'] == 'change_datatype':
+            columns = request.form.getlist('columns')
+            for col in columns:
+                data_type = request.form.get(col)
+                df[col] = df[col].astype(data_type)
+            clean_message = "Data type changed successfully!"
+
+        elif request.form['action'] == 'standardize_data':
+            columns = request.form.getlist('columns')
+            df[columns] = (df[columns] - df[columns].mean()) / df[columns].std()
+            data = df.head()
+            desc = df.describe().to_html(classes='table table-striped')
+            clean_message = "Data standardized successfully!"
+
+        elif request.form['action'] == 'normalize_data':
+            columns = request.form.getlist('columns')
+            df[columns] = (df[columns] - df[columns].min()) / (df[columns].max() - df[columns].min())
+            data = df.head()
+            desc = df.describe().to_html(classes='table table-striped')
+            clean_message = "Data normalized successfully!"
+
+        elif request.form['action'] == 'convert_categorical':
+            columns = request.form.getlist('columns')
+            df = pd.get_dummies(df, columns=columns, prefix=columns)
+            data = df.head()
+            desc = df.describe().to_html(classes='table table-striped')
+            clean_message = "Categorical data converted to integer successfully!"
+
     miss_data = df.isnull().sum()[df.isnull().sum() > 0]
     miss_data=miss_data.to_frame()
     miss_data.columns=['No of Missing Values']
-    return render_template('advanceClean.html', data=df.head(5).to_html(), missData=miss_data.to_html())
-
-@app.route('/advance_Clean/replace_missing', methods=['POST'])
-def replace_missing():
-    columns = request.form.getlist('column')
-    method = request.form.get('method')
-    value = request.form.get('value')
-
-
-    global df, miss_data
-    miss_data = df.isnull().sum()[df.isnull().sum() > 0]
-    miss_data=miss_data.to_frame()
-
-    if not columns or not method or not value:
-        return 'Error: Please select at least one column, a method, and a value'
-    
-    for col in columns:
-        if method == 'mean':
-            replacement = df[col].astype('float').mean(axis=0)
-        elif method == 'freq':
-            replacement = df[col].value_counts().idxmax()
-        df[col].replace(np.NaN, replacement, inplace=True)    
-        done=True
-   
-    columnsD = df.columns.tolist()
-    return render_template('removeMissing.html',columns=columnsD, missData=miss_data.to_html())
-
-@app.route('/visualize')
-def visualize():
-    # retrieve the data from the file or database
-    # and generate a visualization using a library like Matplotlib or Bokeh
-    # and return the visualization as an image or HTML page
-    return 'Data visualized successfully!'
+    cols = list(miss_data.index)
+    dataType=df.dtypes
+    dataType=dataType.to_frame() 
+    return render_template('advance_cleaning.html', data=df, dataType=dataType.transpose(), cols=cols ,columns=list(df.columns), clean_message=clean_message)
 
 if __name__ == '__main__':
     app.run(debug=True)

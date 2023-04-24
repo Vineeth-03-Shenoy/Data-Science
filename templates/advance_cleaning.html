@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Advance Cleaning</title>
+</head>
+
+<body>
+  <h1>Advance Cleaning</h1>
+  <h2>Top 10 Rows of the Dataset:</h2>
+  {{ data.head(10).to_html()|safe }}
+  <h2>Dataset Summary:</h2>
+  {{ data.describe().to_html()|safe }}
+
+  <form action="/advance_cleaning" method="POST">
+    <h2>Replacing Missing Values:</h2>
+    <label>Select Column:</label>
+    <select name="replace_column">
+      {% for col in cols %}
+      <option value="{{col}}">{{col}}</option>
+      {% endfor %}
+    </select>
+    <br><br>
+    <label>Select Method:</label>
+    <select name="replace_method">
+      <option value="mean">Replace with Mean</option>
+      <option value="freq">Replace with Frequency</option>
+      <option value="deleteRow">Delete Row</option>
+    </select>
+    <br><br>
+    <input type="hidden" name="action" value="replace_missing">
+    <input type="submit" value="CLEAN">
+    <br><br>
+
+    <h2>Change Data Type:</h2>
+    <h2>Data Type of Attributes</h2>
+      {{ dataType.to_html()|safe }}
+    {% for col in columns %}
+    <label>{{col}}:</label>
+    <select name="{{col}}">
+      <option value="int">Integer</option>
+      <option value="float">Float</option>
+      <option value="object">String</option>
+    </select>
+    <br><br>
+    {% endfor %}
+    <input type="hidden" name="action" value="change_datatype">
+    <input type="submit" value="CLEAN">
+    <br><br>
+
+    <h2>Standardize Data:</h2>
+    {% for col in cols_num %}
+    <label>{{col}}:</label>
+    <input type="checkbox" name="std_cols" value="{{col}}">
+    <br><br>
+    {% endfor %}
+    <input type="submit" name="standardize" value="CLEAN">
+    <br><br>
+
+    <h2>Normalize Data:</h2>
+    {% for col in cols_num %}
+    <label>{{col}}:</label>
+    <input type="checkbox" name="norm_cols" value="{{col}}">
+    <br><br>
+    {% endfor %}
+    <input type="submit" name="normalize" value="CLEAN">
+    <br><br>
+
+    <h2>Convert Categorical to Integer using Indicator Variable:</h2>
+    {% for col in cols_obj %}
+    <label>{{col}}:</label>
+    <input type="checkbox" name="ind_vars" value="{{col}}">
+    <br><br>
+    {% endfor %}
+    <input type="submit" name="indicator_vars" value="CLEAN">
+    <br><br>
+  </form>
+</body>
+
+</html>
