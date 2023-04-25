@@ -96,6 +96,9 @@ def advance_cleaning():
 def visualization():
     return render_template
 
-
+@app.route('/analysis', methods=['GET', 'POST'])
+def analysis():
+    return render_template
+ 
 if __name__ == '__main__':
     app.run(debug=True)
