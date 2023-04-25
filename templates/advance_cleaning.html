@@ -62,12 +62,13 @@
     <br><br>
 
     <h2>Convert Categorical to Integer using Indicator Variable:</h2>
-    {% for col in cols_obj %}
-    <label>{{col}}:</label>
-    <input type="checkbox" name="ind_vars" value="{{col}}">
+    <select name="column">
+      {% for col in columns %}
+      <option value="{{col}}">{{col}}</option>
+      {% endfor %}
+    </select>
     <br><br>
-    {% endfor %}
-    <input type="submit" name="indicator_vars" value="CLEAN">
+    <input type="submit" name="action" value="convert_categorical">
     <br><br>
   </form>
 </body>
