@@ -113,6 +113,7 @@ def visualization():
 
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
+    
     return render_template('analysis.html')
  
 
