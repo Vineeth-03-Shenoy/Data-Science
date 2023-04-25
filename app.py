@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
-
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import seaborn as sns
 
 app = Flask(__name__)
 app.secret_key = "mysecretkey"
@@ -107,7 +109,7 @@ def advance_cleaning():
     return render_template(
         "advance_cleaning.html",
         data=df,
-        # dataType=dataType.transpose(),
+        dataType=dataType.transpose(),
         cols=cols,
         columns=list(df.columns),
         clean_message=clean_message,
@@ -126,7 +128,12 @@ def analysis():
             columns = request.form.getlist("target_column")
         # elif request.method["action"] == "":
 
-        elif request.form["action"] == ""
+        elif request.form["action"] == "SLR":
+            width = 12
+            height = 10
+            plt.figure(figsize=(width, height))
+            sns.regplot(x="highway-mpg", y="price", data=df)
+            plt.ylim(0,)
 
     return render_template(
         "analysis.html",
