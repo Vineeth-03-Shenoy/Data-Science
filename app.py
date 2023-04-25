@@ -111,14 +111,10 @@ def advance_cleaning():
 def visualization():
     return render_template('visualize.html')
 
-<<<<<<< HEAD
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
     return render_template('analysis.html')
  
-if __name__ == '__main__':
-=======
 
 if __name__ == "__main__":
->>>>>>> e2c304f8c137e7b3eebb4da2facbb2c6c3c14a38
     app.run(debug=True)
