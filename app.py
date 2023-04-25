@@ -113,9 +113,17 @@ def visualization():
 
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
-    
-    return render_template('analysis.html')
- 
+    global df
+    if request.method == "POST":
+        if request.form["action"] == "correlation":
+            columns = request.form.getlist("target_column")
+
+    return render_template(
+        "analysis.html",
+        data=df,
+        # dataType=dataType.transpose(),
+        cols=list(df.columns),
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
