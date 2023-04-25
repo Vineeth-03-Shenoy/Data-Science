@@ -109,7 +109,7 @@ def advance_cleaning():
 
 @app.route("/visualization", methods=["GET", "POST"])
 def visualization():
-    return render_template
+    return render_template('visualize.html')
 
 
 if __name__ == "__main__":
