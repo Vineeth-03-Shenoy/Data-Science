@@ -1,14 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import seaborn as sns
-=======
 from scipy import stats
-
->>>>>>> 289334560f54c8b6c3a0b788e170040002311147
+from sklearn.metrics import mean_squared_error
 
 app = Flask(__name__)
 app.secret_key = "mysecretkey"
@@ -139,16 +136,27 @@ def analysis():
                 dict[key] = p_value
         
         elif request.form["action"] == "SLR":
+            lm = LinearRegression()
+            columns = request.form.getlist("columnX")
+            col = request.form.get("target_column")
+            X = df[columns]
+            Y = df[col]
+            lm.fit(X,Y)
+            R2 = lm.score(X, Y)
+            MSE = mean_squared_error(df[col], Yhat)
+            Yhat=lm.predict(X)
+            
+            Yhat[0:5]
             width = 12
             height = 10
             plt.figure(figsize=(width, height))
-            sns.regplot(x="highway-mpg", y="price", data=df)
+            sns.regplot(x=columns, y=col, data=df)
             plt.ylim(0,)
+            plt.show()
 
     return render_template(
         "analysis.html",
         data=df,
-        # dataType=dataType.transpose(),
         cols=list(df.columns),
     )
 
