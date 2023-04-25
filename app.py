@@ -100,7 +100,7 @@ def advance_cleaning():
     return render_template(
         "advance_cleaning.html",
         data=df,
-        dataType=dataType.transpose(),
+        # dataType=dataType.transpose(),
         cols=cols,
         columns=list(df.columns),
         clean_message=clean_message,
