@@ -126,6 +126,7 @@ def analysis():
             columns = request.form.getlist("target_column")
         # elif request.method["action"] == "":
 
+        elif request.form["action"] == ""
 
     return render_template(
         "analysis.html",
