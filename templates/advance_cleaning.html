@@ -33,39 +33,32 @@
 
     <h2>Change Data Type:</h2>
     <h2>Data Type of Attributes</h2>
-      {{ dataType.to_html()|safe }}
-      <label>Select Column:</label>
-      <select name="column">
-        {% for col in columns %}
-        <option value="{{col}}">{{col}}</option>
-        {% endfor %}
-      </select>
-      <br><br>
-      <label>Select Method:</label>
-      <select name="datatype">
-        <option value="int">Integer</option>
-        <option value="float">Float</option>
-        <option value="object">Object</option>
-      </select><br><br>
+    {{ dataType.to_html()|safe }}
+    <label>Select Column:</label>
+    <select name="column">
+      {% for col in columns %}
+      <option value="{{col}}">{{col}}</option>
+      {% endfor %}
+    </select>
+    <br><br>
+    <label>Select Method:</label>
+    <select name="datatype">
+      <option value="int">Integer</option>
+      <option value="float">Float</option>
+      <option value="object">Object</option>
+    </select><br><br>
     <input type="submit" name="action" value="change_datatype">
     <br><br>
 
-    <h2>Standardize Data:</h2>
-    {% for col in cols_num %}
-    <label>{{col}}:</label>
-    <input type="checkbox" name="std_cols" value="{{col}}">
-    <br><br>
-    {% endfor %}
-    <input type="submit" name="standardize" value="CLEAN">
-    <br><br>
-
     <h2>Normalize Data:</h2>
-    {% for col in cols_num %}
-    <label>{{col}}:</label>
-    <input type="checkbox" name="norm_cols" value="{{col}}">
+    <label>Select Column:</label>
+    <select name="column">
+      {% for col in columns %}
+      <option value="{{col}}">{{col}}</option>
+      {% endfor %}
+    </select>
     <br><br>
-    {% endfor %}
-    <input type="submit" name="normalize" value="CLEAN">
+    <input type="submit" name="action" value="normalize_data">
     <br><br>
 
     <h2>Convert Categorical to Integer using Indicator Variable:</h2>

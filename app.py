@@ -64,10 +64,8 @@ def advance_cleaning():
             clean_message = "Data type changed successfully!"
 
         elif request.form['action'] == 'normalize_data':
-            columns = request.form.getlist('columns')
-            df[columns] = (df[columns] - df[columns].min()) / (df[columns].max() - df[columns].min())
-            data = df.head()
-            desc = df.describe().to_html(classes='table table-striped')
+            col = request.form.getlist('column')
+            df[col] = df[col]/df[col].max()
             clean_message = "Data normalized successfully!"
 
         elif request.form['action'] == 'convert_categorical':
