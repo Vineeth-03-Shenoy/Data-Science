@@ -1,9 +1,14 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
+<<<<<<< HEAD
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import seaborn as sns
+=======
+from scipy import stats
+
+>>>>>>> 289334560f54c8b6c3a0b788e170040002311147
 
 app = Flask(__name__)
 app.secret_key = "mysecretkey"
@@ -123,11 +128,16 @@ def visualization():
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
     global df
+    dict ={}
     if request.method == "POST":
         if request.form["action"] == "check_correlation":
-            columns = request.form.getlist("target_column")
-        # elif request.method["action"] == "":
-
+            col = request.form.get("target_column")
+            for key,val in df.items():
+                if key == col:
+                    break
+                pearson_coef, p_value = stats.pearsonr(df['key'], df['col'])
+                dict[key] = p_value
+        
         elif request.form["action"] == "SLR":
             width = 12
             height = 10
