@@ -92,5 +92,10 @@ def advance_cleaning():
     dataType=dataType.to_frame() 
     return render_template('advance_cleaning.html', data=df, dataType=dataType.transpose(), cols=cols ,columns=list(df.columns), clean_message=clean_message)
 
+@app.route('/visualization', methods=['GET', 'POST'])
+def visualization():
+    return render_template
+
+
 if __name__ == '__main__':
     app.run(debug=True)
