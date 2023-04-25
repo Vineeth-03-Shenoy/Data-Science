@@ -129,10 +129,12 @@ def analysis():
     if request.method == "POST":
         if request.form["action"] == "check_correlation":
             col = request.form.get("target_column")
+            print(type(col))
             for key,val in df.items():
+                type(key)
                 if key == col:
                     break
-                pearson_coef, p_value = stats.pearsonr(df['key'], df['col'])
+                pearson_coef, p_value = stats.pearsonr(df[key], df[col])
                 dict[key] = p_value
         
         elif request.form["action"] == "SLR":
