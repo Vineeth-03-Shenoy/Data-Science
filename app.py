@@ -36,10 +36,7 @@ def upload():
         dataType=df.dtypes
         dataType=dataType.to_frame() 
         
-        df_list = df.values.tolist()
-        JSONP_data = jsonify(df_list)
-        
-        return jsonify({ 'data':JSONP_data, 'dataType':dataType.transpose().to_dict() , 'cols':cols, 'columns':list(df.columns) })
+        return jsonify({ 'data': df.to_json(), 'dataType':dataType.transpose().to_dict() , 'cols':cols, 'columns':list(df.columns) })
 
 @app.route('/advance_cleaning', methods=['GET', 'POST'])
 def advance_cleaning():
