@@ -11,7 +11,6 @@
       <h2>Checking the correlation:</h2>
       <label>Select target Column:</label>
       <select name="target_column">
-      <select name="target_column">
         {% for col in cols %}
         <option value="{{col}}">{{col}}</option>
         {% endfor %}
@@ -21,5 +20,8 @@
       <input type="submit" name="action" value="check_correlation" />
       <br /><br />
     </form>
+    {% for k, v in dict.values%}
+    <p>The Pearson Correlation Coefficient with {{k}} is {{v}}</p>
+    {% endfor %}
   </body>
 </html>

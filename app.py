@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
+from scipy import stats
 
 
 app = Flask(__name__)
@@ -114,9 +115,18 @@ def visualization():
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
     global df
+    dict ={}
     if request.method == "POST":
         if request.form["action"] == "check_correlation":
-            columns = request.form.getlist("target_column")
+            col = request.form.get("target_column")
+            for key,val in df.items():
+                if key == col:
+                    break
+                pearson_coef, p_value = stats.pearsonr(df['key'], df['col'])
+                dict[key] = p_value
+
+
+            
 
     return render_template(
         "analysis.html",
