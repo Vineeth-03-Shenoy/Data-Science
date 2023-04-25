@@ -1,67 +1,66 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Advance Cleaning</title>
+  </head>
 
-<head>
-  <title>Advance Cleaning</title>
-</head>
+  <body>
+    <h1>Advance Cleaning</h1>
+    <h2>Top 10 Rows of the Dataset:</h2>
+    {{ data.head(10).to_html()|safe }}
+    <h2>Dataset Summary:</h2>
+    {{ data.describe().to_html()|safe }}
 
-<body>
-  <h1>Advance Cleaning</h1>
-  <h2>Top 10 Rows of the Dataset:</h2>
-  {{ data.head(10).to_html()|safe }}
-  <h2>Dataset Summary:</h2>
-  {{ data.describe().to_html()|safe }}
+    <form action="/advance_cleaning" method="POST">
+      <h2>Replacing Missing Values:</h2>
+      <label>Select Column:</label>
+      <select name="replace_column">
+        {% for col in cols %}
+        <option value="{{col}}">{{col}}</option>
+        {% endfor %}
+      </select>
+      <br /><br />
+      <label>Select Method:</label>
+      <select name="replace_method">
+        <option value="mean">Replace with Mean</option>
+        <option value="freq">Replace with Frequency</option>
+        <option value="deleteRow">Delete Row</option>
+      </select>
+      <br /><br />
+      <input type="submit" name="action" value="replace_missing" />
+      <br /><br />
 
-  <form action="/advance_cleaning" method="POST">
-    <h2>Replacing Missing Values:</h2>
-    <label>Select Column:</label>
-    <select name="replace_column">
-      {% for col in cols %}
-      <option value="{{col}}">{{col}}</option>
-      {% endfor %}
-    </select>
-    <br><br>
-    <label>Select Method:</label>
-    <select name="replace_method">
-      <option value="mean">Replace with Mean</option>
-      <option value="freq">Replace with Frequency</option>
-      <option value="deleteRow">Delete Row</option>
-    </select>
-    <br><br>
-    <input type="submit" name="action" value="replace_missing">
-    <br><br>
+      <h2>Change Data Type:</h2>
+      <h2>Data Type of Attributes</h2>
+      {{ dataType.to_html()|safe }}
+      <label>Select Column:</label>
+      <select name="column">
+        {% for col in columns %}
+        <option value="{{col}}">{{col}}</option>
+        {% endfor %}
+      </select>
+      <br /><br />
+      <label>Select Method:</label>
+      <select name="datatype">
+        <option value="int">Integer</option>
+        <option value="float">Float</option>
+        <option value="object">Object</option></select
+      ><br /><br />
+      <input type="submit" name="action" value="change_datatype" />
+      <br /><br />
 
-    <h2>Change Data Type:</h2>
-    <h2>Data Type of Attributes</h2>
-    {{ dataType.to_html()|safe }}
-    <label>Select Column:</label>
-    <select name="column">
-      {% for col in columns %}
-      <option value="{{col}}">{{col}}</option>
-      {% endfor %}
-    </select>
-    <br><br>
-    <label>Select Method:</label>
-    <select name="datatype">
-      <option value="int">Integer</option>
-      <option value="float">Float</option>
-      <option value="object">Object</option>
-    </select><br><br>
-    <input type="submit" name="action" value="change_datatype">
-    <br><br>
+      <h2>Normalize Data:</h2>
+      <label>Select Column:</label>
+      <select name="column">
+        {% for col in columns %}
+        <option value="{{col}}">{{col}}</option>
+        {% endfor %}
+      </select>
+      <br /><br />
+      <input type="submit" name="action" value="normalize_data" />
+      <br /><br />
 
-    <h2>Normalize Data:</h2>
-    <label>Select Column:</label>
-    <select name="column">
-      {% for col in columns %}
-      <option value="{{col}}">{{col}}</option>
-      {% endfor %}
-    </select>
-    <br><br>
-    <input type="submit" name="action" value="normalize_data">
-    <br><br>
-
-    <!-- <h2>Convert Categorical to Integer using Indicator Variable:</h2>
+      <!-- <h2>Convert Categorical to Integer using Indicator Variable:</h2>
     <label>Select Column:</label>
     <select name="column">
       {% for col in columns %}
@@ -71,11 +70,9 @@
     <br><br>
     <input type="submit" name="action" value="convert_categorical">
     <br><br> -->
-  </form>
+    </form>
 
-  <a href="visualization"><button>VISUALIZE</button></a>
-  <a href="Analysis"><button>ANALYSIS</button></a>
-
-</body>
-
+    <a href="visualization"><button>VISUALIZE</button></a>
+    <a href="analysis"><button>ANALYSIS</button></a>
+  </body>
 </html>
