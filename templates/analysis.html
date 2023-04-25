@@ -7,17 +7,16 @@
   <body>
     <h1>Analysis of data</h1>
 
-    <form action="/advance_cleaning" method="POST">
+    <form action="/analysis" method="POST">
       <h2>Checking the correlation:</h2>
       <label>Select target Column:</label>
-      <select name="replace_column">
+      <select name="target_column">
         {% for col in cols %}
         <option value="{{col}}">{{col}}</option>
         {% endfor %}
       </select>
-      <br /><br />
-
-      <input type="submit" name="action" value="convert_categorical" />
+      <br><br>
+      <input type="submit" name="action" value="correlation" />
       <br /><br />
     </form>
   </body>
