@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,jsonify
 import pandas as pd
 import numpy as np
-from flask_jsonpify import jsonpify
 
 
 app = Flask(__name__)
@@ -38,9 +37,9 @@ def upload():
         dataType=dataType.to_frame() 
         
         df_list = df.values.tolist()
-        JSONP_data = jsonpify(df_list)
+        JSONP_data = jsonify(df_list)
         
-        return { 'data':df_list, 'dataType':dataType.transpose().to_dict() , 'cols':cols, 'columns':list(df.columns) }
+        return jsonify({ 'data':JSONP_data, 'dataType':dataType.transpose().to_dict() , 'cols':cols, 'columns':list(df.columns) })
 
 @app.route('/advance_cleaning', methods=['GET', 'POST'])
 def advance_cleaning():
