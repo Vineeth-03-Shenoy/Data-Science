@@ -40,7 +40,7 @@ def upload():
         df_list = df.values.tolist()
         JSONP_data = jsonpify(df_list)
         
-        return { 'data':JSONP_data, 'dataType':dataType.transpose() , 'cols':cols, 'columns':list(df.columns) }
+        return { 'data':df_list, 'dataType':dataType.transpose().to_dict() , 'cols':cols, 'columns':list(df.columns) }
 
 @app.route('/advance_cleaning', methods=['GET', 'POST'])
 def advance_cleaning():
