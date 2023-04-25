@@ -81,15 +81,15 @@ def advance_cleaning():
                 df[col] = df[col] / df[col].max()
             clean_message = "Data normalized successfully!"
 
-        elif request.form["action"] == "convert_categorical":
-            columns = request.form.getlist("columns")
-            dummyframe = pd.get_dummies(df, columns=columns, prefix=columns)
-            # dummyframe2 = pd.get_dummies(df['aspiration'])
-            # dummyframe2.rename(columns={'std':'aspiration-std','turbo':'aspiration-turbo'}, inplace=True)
-            # merge the dummyframe2 to main data frame and remove th aspiration column
-            df = pd.concat([df, dummyframe], axis=1)
-            # df.drop('aspiration', axis=1, inplace=True)
-            clean_message = "Categorical data converted to integer successfully!"
+        # elif request.form["action"] == "convert_categorical":
+        #     columns = request.form.getlist("columns")
+        #     dummyframe = pd.get_dummies(df, columns=columns, prefix=columns)
+        #     # dummyframe2 = pd.get_dummies(df['aspiration'])
+        #     # dummyframe2.rename(columns={'std':'aspiration-std','turbo':'aspiration-turbo'}, inplace=True)
+        #     # merge the dummyframe2 to main data frame and remove th aspiration column
+        #     df = pd.concat([df, dummyframe], axis=1)
+        #     # df.drop('aspiration', axis=1, inplace=True)
+        #     clean_message = "Categorical data converted to integer successfully!"
 
     miss_data = df.isnull().sum()[df.isnull().sum() > 0]
     miss_data = miss_data.to_frame()
