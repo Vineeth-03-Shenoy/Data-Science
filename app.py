@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import seaborn as sns
 from scipy import stats
-
+from sklearn.metrics import mean_squared_error
 
 app = Flask(__name__)
 app.secret_key = "mysecretkey"
@@ -133,9 +136,25 @@ def analysis():
                     break
                 pearson_coef, p_value = stats.pearsonr(df[key], df[col])
                 dict[key] = p_value
-
-
+        
+        elif request.form["action"] == "SLR":
+            lm = LinearRegression()
+            columns = request.form.getlist("columnX")
+            col = request.form.get("target_column")
+            X = df[columns]
+            Y = df[col]
+            lm.fit(X,Y)
+            R2 = lm.score(X, Y)
+            MSE = mean_squared_error(df[col], Yhat)
+            Yhat=lm.predict(X)
             
+            Yhat[0:5]
+            width = 12
+            height = 10
+            plt.figure(figsize=(width, height))
+            sns.regplot(x=columns, y=col, data=df)
+            plt.ylim(0,)
+            plt.show()
 
     return render_template(
         "analysis.html",
