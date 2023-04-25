@@ -34,7 +34,7 @@ def upload():
         cols = list(miss_data.index)
         dataType=df.dtypes
         dataType=dataType.to_frame() 
-        return render_template('advance_cleaning.html', data=df, dataType=dataType.transpose() , cols=cols, columns=list(df.columns))
+        return { data=df, dataType=dataType.transpose() , cols=cols, columns=list(df.columns) }
 
 @app.route('/advance_cleaning', methods=['GET', 'POST'])
 def advance_cleaning():
