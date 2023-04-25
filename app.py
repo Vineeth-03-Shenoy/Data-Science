@@ -121,9 +121,8 @@ def visualization():
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
     global df
-    clean_message = None
     if request.method == "POST":
-        if request.form["action"] == "correlation":
+        if request.form["action"] == "check_correlation":
             columns = request.form.getlist("target_column")
         # elif request.method["action"] == "":
 

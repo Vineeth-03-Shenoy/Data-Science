@@ -11,12 +11,14 @@
       <h2>Checking the correlation:</h2>
       <label>Select target Column:</label>
       <select name="target_column">
+      <select name="target_column">
         {% for col in cols %}
         <option value="{{col}}">{{col}}</option>
         {% endfor %}
       </select>
-      <br><br>
-      <input type="submit" name="action" value="correlation" />
+      <br /><br />
+
+      <input type="submit" name="action" value="check_correlation" />
       <br /><br />
     </form>
   </body>
