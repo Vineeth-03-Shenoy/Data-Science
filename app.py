@@ -98,7 +98,7 @@ def visualization():
 
 @app.route('/analysis', methods=['GET', 'POST'])
 def analysis():
-    return render_template
+    return render_template('analysis.html')
  
 if __name__ == '__main__':
     app.run(debug=True)
