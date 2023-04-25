@@ -120,40 +120,43 @@ def advance_cleaning():
 
 @app.route("/visualization", methods=["GET", "POST"])
 def visualization():
-    return render_template('visualize.html')
+    return render_template("visualize.html")
 
-@app.route('/analysis', methods=['GET', 'POST'])
+
+@app.route("/analysis", methods=["GET", "POST"])
 def analysis():
     global df
-    dict ={}
+    dict = {}
     if request.method == "POST":
         if request.form["action"] == "check_correlation":
             col = request.form.get("target_column")
             print(type(col))
-            for key,val in df.items():
+            for key, val in df.items():
                 type(key)
                 if key == col:
                     break
                 pearson_coef, p_value = stats.pearsonr(df[key], df[col])
                 dict[key] = p_value
-        
+
         elif request.form["action"] == "SLR":
             lm = LinearRegression()
             columns = request.form.getlist("columnX")
             col = request.form.get("target_column")
             X = df[columns]
             Y = df[col]
-            lm.fit(X,Y)
+            lm.fit(X, Y)
             R2 = lm.score(X, Y)
             MSE = mean_squared_error(df[col], Yhat)
-            Yhat=lm.predict(X)
-            
+            Yhat = lm.predict(X)
+
             Yhat[0:5]
             width = 12
             height = 10
             plt.figure(figsize=(width, height))
             sns.regplot(x=columns, y=col, data=df)
-            plt.ylim(0,)
+            plt.ylim(
+                0,
+            )
             plt.show()
 
     return render_template(
@@ -161,6 +164,7 @@ def analysis():
         data=df,
         cols=list(df.columns),
     )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
