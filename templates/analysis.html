@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Analysis</title>
+  </head>
+
+  <body>
+    <h1>Analysis of data</h1>
+
+    <form action="/advance_cleaning" method="POST">
+      <h2>Checking the correlation:</h2>
+      <label>Select target Column:</label>
+      <select name="replace_column">
+        {% for col in cols %}
+        <option value="{{col}}">{{col}}</option>
+        {% endfor %}
+      </select>
+      <br /><br />
+
+      <input type="submit" name="action" value="convert_categorical" />
+      <br /><br />
+    </form>
+  </body>
+</html>
