@@ -10,14 +10,14 @@
     <form action="/advance_cleaning" method="POST">
       <h2>Checking the correlation:</h2>
       <label>Select target Column:</label>
-      <select name="replace_column">
+      <select name="target_column">
         {% for col in cols %}
         <option value="{{col}}">{{col}}</option>
         {% endfor %}
       </select>
       <br /><br />
 
-      <input type="submit" name="action" value="convert_categorical" />
+      <input type="submit" name="action" value="Check correlation" />
       <br /><br />
     </form>
   </body>
