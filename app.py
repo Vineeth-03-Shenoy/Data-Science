@@ -115,7 +115,7 @@ def visualization():
 def analysis():
     global df
     if request.method == "POST":
-        if request.form["action"] == "correlation":
+        if request.form["action"] == "check_correlation":
             columns = request.form.getlist("target_column")
 
     return render_template(
