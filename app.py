@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import numpy as np
+from flask_jsonpify import jsonpify
+
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -34,7 +36,11 @@ def upload():
         cols = list(miss_data.index)
         dataType=df.dtypes
         dataType=dataType.to_frame() 
-        return { data=df, dataType=dataType.transpose() , cols=cols, columns=list(df.columns) }
+        
+        df_list = df.values.tolist()
+        JSONP_data = jsonpify(df_list)
+        
+        return { 'data':JSONP_data, 'dataType':dataType.transpose() , 'cols':cols, 'columns':list(df.columns) }
 
 @app.route('/advance_cleaning', methods=['GET', 'POST'])
 def advance_cleaning():
@@ -64,8 +70,9 @@ def advance_cleaning():
             clean_message = "Data type changed successfully!"
 
         elif request.form['action'] == 'normalize_data':
-            col = request.form.getlist('column')
-            df[col] = df[col]/df[col].max()
+            cols = request.form.getlist('column')
+            for col in cols:
+                df[col] = df[col]/df[col].max()
             clean_message = "Data normalized successfully!"
 
         elif request.form['action'] == 'convert_categorical':
